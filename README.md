@@ -2,15 +2,15 @@
 
 ## Overview
 
-This repository contains the source code and resources related to the research on Traveling Salesman Problem optimization techniques. The primary focus is on implementing and comparing different heuristic and approximation algorithms to solve the TSP.
+This repository contains the source code and resources related to the research on 2D Euclidean Traveling Salesman Problem optimization techniques. The primary focus is on implementing and comparing different heuristic and approximation algorithms to solve the TSP.
 
 ## File Descriptions
 
 - `Generate_Input.py`: This script reads TSP coordinates from a file and creates a distance matrix.
 - `Random_Tour.py`: Contains a function to generate a random tour of the given nodes.
-- `Construct_Tour.py`: Implements the construction of an initial tour using a Minimum Spanning Tree (MST) and Depth-First Search (DFS).
+- `Construct_Tour.py`: Implements the construction of an initial tour using a Double Tree Shortcut algorithm.
 - `Tour_Optimization.py`: Provides a function to optimize a given tour using the 2-opt algorithm.
-- `Main.py`: The main script includes generating initial tours, optimizing them, and comparing the results with known solutions.
+- `Main.py`: The main script includes generating initial tours, optimizing them, and compare the results with known solutions.
 
 ## Usage
 
