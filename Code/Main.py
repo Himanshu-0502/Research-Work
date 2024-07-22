@@ -32,8 +32,8 @@ def solve(Node, Solution):
     return random_gap, optimal_gap, time_gap
 
 if __name__ == '__main__':
-    nodes = [130, 131, 150, 198, 237, 280, 493, 657, 1000]
-    solutions = [6110, 564, 6528, 15780, 1019, 2579, 35002, 48912, 18659688]
+    nodes = [130, 131, 150, 237, 280, 493, 657, 724, 783, 1000]
+    solutions = [6110, 564, 6528, 1019, 2579, 35002, 48912, 41910, 8806, 18659688]
     random_gaps, optimal_gaps, time_gaps = [], [], []
 
     for node, solution in zip(nodes, solutions):
