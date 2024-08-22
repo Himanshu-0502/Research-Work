@@ -1,4 +1,5 @@
 import time
+import matplotlib.pyplot as plt
 from Generate_Input import take_input
 from Random_Tour import generate_random_tour
 from Construct_Tour import construct_tour
@@ -41,6 +42,40 @@ if __name__ == '__main__':
         random_gaps.append(random_gap)
         optimal_gaps.append(optimal_gap)
         time_gaps.append(time_gap)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(nodes, random_gaps, marker='o', linestyle='-', color='b')
+    plt.title('Random 2-Opt Percentage Gap vs. Number of Nodes')
+    plt.xlabel('Number of Nodes')
+    plt.ylabel('Random 2-Opt Percentage Gap (%)')
+    plt.grid(True)
+    plt.show()
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(nodes, optimal_gaps, marker='o', linestyle='-', color='r')
+    plt.title('Optimal 2-Opt Percentage Gap vs. Number of Nodes')
+    plt.xlabel('Number of Nodes')
+    plt.ylabel('Optimal 2-Opt Percentage Gap (%)')
+    plt.grid(True)
+    plt.show()
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(nodes, random_gaps, marker='o', linestyle='-', color='b', label='Random 2-Opt Percentage Gap')
+    plt.plot(nodes, optimal_gaps, marker='o', linestyle='-', color='r', label='Optimal 2-Opt Percentage Gap')
+    plt.title('Percentage Gap vs. Number of Nodes')
+    plt.xlabel('Number of Nodes')
+    plt.ylabel('Percentage Gap (%)')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(nodes, time_gaps, marker='o', linestyle='-', color='b')
+    plt.title('Time Improvement Percentage vs. Number of Nodes')
+    plt.xlabel('Number of Nodes')
+    plt.ylabel('Time Improvement Percentage (%)')
+    plt.grid(True)
+    plt.show()
 
     print('Average Random 2-Opt Percentage Gap:', sum(random_gaps) / len(random_gaps))
     print('Average Optimal 2-Opt Percentage Gap:', sum(optimal_gaps) / len(optimal_gaps))
