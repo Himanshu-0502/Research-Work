@@ -11,7 +11,6 @@ def tour_cost(tour, distance_matrix):
 
 def solve(Node, Solution):
     """Solves the TSP problem for given nodes and solutions."""
-    print(f'Solving {Node} Node with {Solution} Solution')
     distance_matrix = take_input(Node, Solution)
 
     start_time = time.time()
@@ -19,32 +18,42 @@ def solve(Node, Solution):
     random_score = tour_cost(tour_optimization(random_tour, distance_matrix), distance_matrix)
     original_time = time.time() - start_time
     random_gap = round((random_score - Solution) / Solution * 100, 2)
-    print(f'Random 2-Opt Algorithm: {random_score}, Random 2-Opt Percentage Gap: {random_gap}')
 
     start_time = time.time()
     optimal_tour = construct_tour(distance_matrix)
     optimal_score = tour_cost(tour_optimization(optimal_tour, distance_matrix), distance_matrix)
     improved_time = time.time() - start_time
     optimal_gap = round((optimal_score - Solution) / Solution * 100, 2)
-    print(f'Optimal 2-Opt Algorithm: {optimal_score}, Optimal 2-Opt Percentage Gap: {optimal_gap}')
 
     time_gap = round((original_time - improved_time) / original_time * 100, 2)
-    print(f'Time Improvement Percentage: {time_gap}\n')
     return random_gap, optimal_gap, time_gap
 
 if __name__ == '__main__':
     nodes = [130, 131, 150, 237, 280, 493, 657, 724, 783, 1000]
     solutions = [6110, 564, 6528, 1019, 2579, 35002, 48912, 41910, 8806, 18659688]
-    random_gaps, optimal_gaps, time_gaps = [], [], []
+    iterations = 10
+    average_random_gaps, average_optimal_gaps, average_time_gaps = [], [], []
 
     for node, solution in zip(nodes, solutions):
-        random_gap, optimal_gap, time_gap = solve(node, solution)
-        random_gaps.append(random_gap)
-        optimal_gaps.append(optimal_gap)
-        time_gaps.append(time_gap)
+        random_gaps, optimal_gaps, time_gaps = 0, 0, 0
+        for i in range(iterations):
+            random_gap, optimal_gap, time_gap = solve(node, solution)
+            random_gaps += random_gap
+            optimal_gaps += optimal_gap
+            time_gaps += time_gap
+        average_random_gaps.append(random_gaps / iterations)
+        average_optimal_gaps.append(optimal_gaps / iterations)
+        average_time_gaps.append(time_gaps / iterations)
+
+    for node, solution, random_gap, optimal_gap, time_gap in zip(nodes, solutions, average_random_gaps, average_optimal_gaps, average_time_gaps):
+        print(f'Solving {node} Node with {solution} Solution')
+        print(f'Random 2-Opt Percentage Gap: {random_gap}')
+        print(f'Optimal 2-Opt Percentage Gap: {optimal_gap}')
+        print(f'Time Improvement Percentage: {time_gap}')
+        print()
 
     plt.figure(figsize=(10, 6))
-    plt.plot(nodes, random_gaps, marker='o', linestyle='-', color='b')
+    plt.plot(nodes, average_random_gaps, marker='o', linestyle='-', color='b')
     plt.title('Random 2-Opt Percentage Gap vs. Number of Nodes')
     plt.xlabel('Number of Nodes')
     plt.ylabel('Random 2-Opt Percentage Gap (%)')
@@ -52,7 +61,7 @@ if __name__ == '__main__':
     plt.show()
 
     plt.figure(figsize=(10, 6))
-    plt.plot(nodes, optimal_gaps, marker='o', linestyle='-', color='r')
+    plt.plot(nodes, average_optimal_gaps, marker='o', linestyle='-', color='r')
     plt.title('Optimal 2-Opt Percentage Gap vs. Number of Nodes')
     plt.xlabel('Number of Nodes')
     plt.ylabel('Optimal 2-Opt Percentage Gap (%)')
@@ -60,8 +69,8 @@ if __name__ == '__main__':
     plt.show()
 
     plt.figure(figsize=(10, 6))
-    plt.plot(nodes, random_gaps, marker='o', linestyle='-', color='b', label='Random 2-Opt Percentage Gap')
-    plt.plot(nodes, optimal_gaps, marker='o', linestyle='-', color='r', label='Optimal 2-Opt Percentage Gap')
+    plt.plot(nodes, average_random_gaps, marker='o', linestyle='-', color='b', label='Random 2-Opt Percentage Gap')
+    plt.plot(nodes, average_optimal_gaps, marker='o', linestyle='-', color='r', label='Optimal 2-Opt Percentage Gap')
     plt.title('Percentage Gap vs. Number of Nodes')
     plt.xlabel('Number of Nodes')
     plt.ylabel('Percentage Gap (%)')
@@ -70,13 +79,13 @@ if __name__ == '__main__':
     plt.show()
 
     plt.figure(figsize=(10, 6))
-    plt.plot(nodes, time_gaps, marker='o', linestyle='-', color='b')
+    plt.plot(nodes, average_time_gaps, marker='o', linestyle='-', color='b')
     plt.title('Time Improvement Percentage vs. Number of Nodes')
     plt.xlabel('Number of Nodes')
     plt.ylabel('Time Improvement Percentage (%)')
     plt.grid(True)
     plt.show()
 
-    print('Average Random 2-Opt Percentage Gap:', sum(random_gaps) / len(random_gaps))
-    print('Average Optimal 2-Opt Percentage Gap:', sum(optimal_gaps) / len(optimal_gaps))
-    print('Average Time Improvement Percentage:', sum(time_gaps) / len(time_gaps))
+    print('Average Random 2-Opt Percentage Gap:', sum(average_random_gaps) / len(average_random_gaps))
+    print('Average Optimal 2-Opt Percentage Gap:', sum(average_optimal_gaps) / len(average_optimal_gaps))
+    print('Average Time Improvement Percentage:', sum(average_time_gaps) / len(average_time_gaps))
